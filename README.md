@@ -1,5 +1,5 @@
 
-This repository contains scripts to interact with project data on Flywheel. 
+This repository contains R scripts to interact with project data on Flywheel. 
 
 ### Dependencies
 
@@ -11,4 +11,4 @@ To use these scripts, you will need the following installed (details [here](http
 
 ### Scripts
 
-- `get-session-data.R`: this script creates a dataframe with information about each session in a project
+- `get-session-data.R`: creates a dataframe with information about each session in a project
