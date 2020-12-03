@@ -12,3 +12,4 @@ To use these scripts, you will need the following installed (details [here](http
 ### Scripts
 
 - `get-session-data.R`: creates a dataframe with information about each session in a project
+- `get-acquisition-data.R`: creates a dataframe with information about all acquisitions of a given type in a project
