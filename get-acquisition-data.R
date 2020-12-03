@@ -6,7 +6,6 @@
 # setup -------------------------------------------------------------------
 
 rm(list = ls())
-library(here)
 library(reticulate)
 use_python(Sys.which('python3'))
 flywheel <- import('flywheel')
