@@ -61,7 +61,7 @@ for (ii in 1:length(sessions)) {
   }
 }
 
-# compile session data ----------------------------------------------------
+# compile acq data ----------------------------------------------------
 
 data_acquisitions <- data.frame(label_subject, label_session, 
                                 id_session = session_ids, 
