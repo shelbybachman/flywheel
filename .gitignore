@@ -1,6 +1,11 @@
+.Rproj
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
-slides/
+slides/css/
+slides/img/
+slides/libs/
+slides/intro-to-sdk.html
+slides/intro-to-sdk.Rmd
 .svg
