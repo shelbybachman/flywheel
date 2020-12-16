@@ -14,3 +14,7 @@ To use these scripts, you will need the following installed (details [here](http
 - `get-session-data.R`: creates a dataframe with information about each session in a project
 - `get-acquisition-data.R`: creates a dataframe with information about all acquisitions of a given type in a project
 - `download-file.R`: downloads a file from a desired session and acquisition
+
+### Slides
+
+- [Using R with the Flywheel SDK](https://raw.githubusercontent.com/shelbybachman/flywheel/main/slides/intro-to-sdk.pdf)
