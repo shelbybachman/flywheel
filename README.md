@@ -17,4 +17,4 @@ To use these scripts, you will need the following installed (details [here](http
 
 ### Slides
 
-- [Using R with the Flywheel SDK](https://raw.githubusercontent.com/shelbybachman/flywheel/main/slides/intro-to-sdk.pdf)
+- [Using R with the Flywheel SDK](https://github.com/shelbybachman/flywheel/blob/main/slides/intro-to-sdk.pdf)
