@@ -3,7 +3,7 @@ This repository contains R scripts to interact with project data on Flywheel.
 
 ### Dependencies
 
-To use these scripts, you will need the following installed (details [here](https://flywheel-io.gitlab.io/product/backend/sdk/branches/master/python/python_sdk_with_r.html)):
+To use the scripts below, you will need the following installed (details [here](https://flywheel-io.gitlab.io/product/backend/sdk/branches/master/python/python_sdk_with_r.html)):
 
 - Python 3
 - Python library `flywheel-sdk`
@@ -17,4 +17,4 @@ To use these scripts, you will need the following installed (details [here](http
 
 ### Slides
 
-- [Using R with the Flywheel SDK](https://raw.githubusercontent.com/shelbybachman/flywheel/main/slides/intro-to-sdk.pdf)
+- [Using R with the Flywheel SDK](https://github.com/shelbybachman/flywheel/blob/main/slides/intro-to-sdk.pdf)
