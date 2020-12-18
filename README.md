@@ -5,6 +5,7 @@ This repository contains R scripts to interact with project data on Flywheel.
 
 To use the scripts below, you will need the following installed (details [here](https://flywheel-io.gitlab.io/product/backend/sdk/branches/master/python/python_sdk_with_r.html)):
 
+- R
 - Python 3
 - Python library `flywheel-sdk`
 - R package `reticulate`
