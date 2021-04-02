@@ -29,10 +29,18 @@ project <- fw$lookup(paste(group_name, project_name, sep = '/'))
 # (NOTE: this needs to be the same across files)
 label_acquisition <- c('your_acq_label1', 'your_acq_label2')
 
+# bids-compliant acquisition names 
+# these tell the script how to name downloaded files for each acquisition type
+# e.g. sub-X_ses-X_[THIS-PART].nii.gz
+# by default, this matches the labels above
+# but usually you'll want to specify them here
+# for acquisition == mprage, use `acq-T1w`
+# for acquisition == functional task, use something like `task-nback_bold`
+label_acquisition_bids <- label_acquisition
+
 # file type to download within each acquisition specified above
-# this is a vector of minimum length 1
-# (NOTE: this needs to be the same across files)
-file_type <- c('your_file_type')  # examples: dicom, nifti, qa, 'tabular data'
+# this is either 'dicom' or 'nifti'
+file_type <- 'nifti'  # either: dicom, nifti
 
 
 # exclusion information ---------------------------------------------------
@@ -94,18 +102,43 @@ for (ii in 1:length(sessions)) {
           # create the subject (and as needed, session) subdirectory
           # if format_bids is 1 or 2,
           # and rename the file in bids naming convention
+          
+          # set bids-compliant subject, session names
           this_subject_bids <- paste('sub-', this_session$subject$label, sep = '')
           this_session_bids <- paste('ses-', this_session$label, sep = '')
-          this_acq_bids <- paste('acq-', this_acquisition$label, sep = '')
-          file_ext <- '' # tba build file extension based on type
-          filename_local <- paste(this_subject_bids, 
+          
+          # set bids-compliant acqusition name
+          idx <- which(label_acquisition == this_acquisition$label)
+          this_acq_bids <- label_acquisition_bids[idx]
+      
+          # set file extension based on file type
+          if (file_type == 'nifti') {
+            file_ext <- '.nii.gz'
+          } else if (file_type == 'dicom') {
+            file_ext <- '.zip'
+          }
+          
+          # set destination filename
+          dest_file <- paste(this_subject_bids, 
                                   this_session_bids,
                                   this_acq_bids, 
+                                  file_ext,
                                   sep = '_')
-          dest_file = paste(download_path,
-                            this_subject,
-                            this_session,)
-          files[[ii]]$download(dest_file = paste(download_path, files[[hh]]$name, sep = '/'))
+          dest_file_full <- file.path(download_path,
+                            this_subject_bids,
+                            this_session_bids,
+                            dest_file)
+          
+          # create subject & session subdirectories if they don't exist
+          if (dir.exists(file.path(download_path, this_subject_bids))) {
+            dir.create(file.path(download_path, this_subject_bids))
+          }
+          if (dir.exists(file.path(download_path, this_subject_bids, this_session_bids))) {
+            dir.create(file.path(download_path, this_subject_bids, this_session_bids))
+          }
+          
+          # download the file
+          files[[ii]]$download(dest_file = dest_file_full)
           message(paste('downloaded file: ', download_path, '/', files[[hh]]$name, sep = ''))
         }
       }
