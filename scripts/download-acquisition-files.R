@@ -48,6 +48,10 @@ class_acquisition_bids <- c('anat', 'bold')
 # this is either 'dicom' or 'nifti'
 file_type <- 'nifti'  # either: dicom, nifti
 
+# binary indicating whether this is a multi-session project 
+# (1=yes, 0=no)
+multi_session <- 1
+
 
 # exclusion information ---------------------------------------------------
 
@@ -89,8 +93,8 @@ for (ii in 1:length(sessions)) {
   for (jj in 1:length(acquisitions)) {
     
     # if a relevant acquisition
-    if (acquisitions[[ii]]$label %in% label_acquisition) {
-      this_acquisition <- acquisitions[[ii]]
+    if (acquisitions[[jj]]$label %in% label_acquisition) {
+      this_acquisition <- acquisitions[[jj]]
       
       # retrieve files for this acquisition
       files <- this_acquisition$files
@@ -154,23 +158,23 @@ for (ii in 1:length(sessions)) {
             # if a multi-session experiment:
             # create subject, session & modality subdirectories if they don't exist
             if (multi_session == 1) {
-              if (dir.exists(file.path(download_path, this_subject_bids))) {
+              if (!dir.exists(file.path(download_path, this_subject_bids))) {
                 dir.create(file.path(download_path, this_subject_bids))
               }
-              if (dir.exists(file.path(download_path, this_subject_bids, this_session_bids))) {
+              if (!dir.exists(file.path(download_path, this_subject_bids, this_session_bids))) {
                 dir.create(file.path(download_path, this_subject_bids, this_session_bids))
               }
-              if (dir.exists(file.path(download_path, this_subject_bids, this_session_bids, this_modality_bids))) {
+              if (!dir.exists(file.path(download_path, this_subject_bids, this_session_bids, this_modality_bids))) {
                 dir.create(file.path(download_path, this_subject_bids, this_session_bids, this_modality_bids))
               }
               
               # if single-session experiment-session experiment:
               # create subject & modality subdirectories if they don't exist
             } else if (multi_session == 0) {
-              if (dir.exists(file.path(download_path, this_subject_bids))) {
+              if (!dir.exists(file.path(download_path, this_subject_bids))) {
                 dir.create(file.path(download_path, this_subject_bids))
               }
-              if (dir.exists(file.path(download_path, this_subject_bids, this_modality_bids))) {
+              if (!dir.exists(file.path(download_path, this_subject_bids, this_modality_bids))) {
                 dir.create(file.path(download_path, this_subject_bids, this_modality_bids))
               }
             }
@@ -179,7 +183,7 @@ for (ii in 1:length(sessions)) {
           
           # download the file
           files[[hh]]$download(dest_file = dest_file_full)
-          message(paste('downloaded file: ', download_path, '/', files[[hh]]$name, sep = ''))
+          message(paste('downloaded file: ', dest_file_full, sep = ''))
         }
       }
       
