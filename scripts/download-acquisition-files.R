@@ -61,10 +61,6 @@ download_path <- 'download_location'
 # (NOTE: if you specified 2, this script is going to automatically detect subjects & sessions)
 format_bids <- 2
 
-# vector containing labels of sessions on flywheel
-# (NOTE: add this only if you have >= 2 sessions per subject,
-# leave this empty if you only have one session per subject)
-label_sessions <- c()
 
 # loop over sessions, find & download files of interest -------------------
 
