@@ -12,7 +12,9 @@ To use the scripts below, you will need the following installed (details [here](
  
 Make sure your python `Tools` --> `Global Options` (or better yet, `Project Options`, if you are working in an RStudio project and would like project-specific settings) --> `Python` and select the python interpreter of your choice. Then, test that things are working by entering the following command the R console:
 
-`use_python(Sys.which('python3'))`
+`flywheel <- import('flywheel')`
+
+This should run with no errors. If you get an error that the module cannot be found, try a different interpreter. You can also set the interpreter manually using the `use_python(Sys.which('python3'))`, or something similar.
 
 ### Scripts
 
