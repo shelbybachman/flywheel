@@ -5,9 +5,7 @@
 
 # setup -------------------------------------------------------------------
 
-rm(list = ls())
 library(reticulate)
-use_python(Sys.which('python3'))
 flywheel <- import('flywheel')
 
 # connect to flywheel -----------------------------------------------------
