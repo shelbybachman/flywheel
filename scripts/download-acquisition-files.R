@@ -61,7 +61,7 @@ subjects_to_exclude <- c()
 
 # download information ----------------------------------------------------
 
-# path to where you want the file downloaded, with no trailing filesep
+# full path to where you want the file downloaded, with no trailing filesep
 download_path <- 'download_location'  
 
 # binary indicating whether you want the files downloaded into bids-formatted subdirectories
@@ -103,7 +103,7 @@ for (ii in 1:length(sessions)) {
       for (hh in 1:length(files)) {
         
         # if a relevant file
-        if (files[[hh]]$type %in% file_type) {
+        if (files[[hh]]$type == file_type) {
           
           # create the subject (and as needed, session) subdirectory
           # if format_bids is 1 or 2,
