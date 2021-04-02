@@ -27,7 +27,8 @@ project <- fw$lookup(paste(group_name, project_name, sep = '/'))
 # label(s) for acquisition(s) of all files you would like to download
 # this is a vector of minimum length 1
 # (NOTE: this needs to be the same across files)
-label_acquisition <- c('your_acq_label1', 'your_acq_label2')
+# here, the example is for an mprage acquisition and a BOLD acquisition
+label_acquisition <- c('your_acq_label_mprage', 'your_acq_label_bold')
 
 # bids-compliant acquisition names 
 # these tell the script how to name downloaded files for each acquisition type
@@ -37,6 +38,11 @@ label_acquisition <- c('your_acq_label1', 'your_acq_label2')
 # for acquisition == mprage, use `acq-T1w`
 # for acquisition == functional task, use something like `task-nback_bold`
 label_acquisition_bids <- label_acquisition
+
+# bids-compliant classifications
+# for each of the above acquisitions, 
+# should relevant files get stored in the subdirectories 'anat' or 'bold'?
+class_acquisition_bids <- c('anat', 'bold')
 
 # file type to download within each acquisition specified above
 # this is either 'dicom' or 'nifti'
@@ -106,7 +112,10 @@ for (ii in 1:length(sessions)) {
           # set bids-compliant acqusition name
           idx <- which(label_acquisition == this_acquisition$label)
           this_acq_bids <- label_acquisition_bids[idx]
-      
+          
+          # set bids-compliant modality name
+          this_modality_bids <- class_acquisition_bids[idx]
+          
           # set file extension based on file type
           if (file_type == 'nifti') {
             file_ext <- '.nii.gz'
@@ -115,26 +124,61 @@ for (ii in 1:length(sessions)) {
           }
           
           # set destination filename
-          dest_file <- paste(this_subject_bids, 
-                                  this_session_bids,
-                                  this_acq_bids, 
-                                  file_ext,
-                                  sep = '_')
-          dest_file_full <- file.path(download_path,
-                            this_subject_bids,
-                            this_session_bids,
-                            dest_file)
-          
-          # create subject & session subdirectories if they don't exist
-          if (dir.exists(file.path(download_path, this_subject_bids))) {
-            dir.create(file.path(download_path, this_subject_bids))
+          # if multi-session experiment
+          if (multi_session == 1) {
+            dest_file <- paste(this_subject_bids, '_',
+                               this_session_bids, '_',
+                               this_acq_bids,
+                               file_ext,
+                               sep = '')
+            dest_file_full <- file.path(download_path,
+                                        this_subject_bids,
+                                        this_session_bids,
+                                        this_modality_bids,
+                                        dest_file)
+          } else if (multi_session == 0) {
+            dest_file <- paste(this_subject_bids, '_',
+                               this_acq_bids,
+                               file_ext,
+                               sep = '')
+            dest_file_full <- file.path(download_path,
+                                        this_subject_bids,
+                                        this_modality_bids,
+                                        dest_file)
           }
-          if (dir.exists(file.path(download_path, this_subject_bids, this_session_bids))) {
-            dir.create(file.path(download_path, this_subject_bids, this_session_bids))
+
+          
+          # if files are to be stored in bids-compliant directories
+          if (format_bids %in% c(1,2)) {
+            
+            # if a multi-session experiment:
+            # create subject, session & modality subdirectories if they don't exist
+            if (multi_session == 1) {
+              if (dir.exists(file.path(download_path, this_subject_bids))) {
+                dir.create(file.path(download_path, this_subject_bids))
+              }
+              if (dir.exists(file.path(download_path, this_subject_bids, this_session_bids))) {
+                dir.create(file.path(download_path, this_subject_bids, this_session_bids))
+              }
+              if (dir.exists(file.path(download_path, this_subject_bids, this_session_bids, this_modality_bids))) {
+                dir.create(file.path(download_path, this_subject_bids, this_session_bids, this_modality_bids))
+              }
+              
+              # if single-session experiment-session experiment:
+              # create subject & modality subdirectories if they don't exist
+            } else if (multi_session == 0) {
+              if (dir.exists(file.path(download_path, this_subject_bids))) {
+                dir.create(file.path(download_path, this_subject_bids))
+              }
+              if (dir.exists(file.path(download_path, this_subject_bids, this_modality_bids))) {
+                dir.create(file.path(download_path, this_subject_bids, this_modality_bids))
+              }
+            }
+
           }
           
           # download the file
-          files[[ii]]$download(dest_file = dest_file_full)
+          files[[hh]]$download(dest_file = dest_file_full)
           message(paste('downloaded file: ', download_path, '/', files[[hh]]$name, sep = ''))
         }
       }
